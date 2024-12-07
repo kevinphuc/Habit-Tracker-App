@@ -11,8 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.habit_tracker_app.ui.theme.HabitTrackerAppTheme
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.Firebase
 
 class MainActivity : ComponentActivity() {
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -26,6 +31,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        // Obtain the FirebaseAnalytics instance.
+        firebaseAnalytics = Firebase.analytics
     }
 }
 
