@@ -1,53 +1,83 @@
 package com.example.habit_tracker_app
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.habit_tracker_app.ui.theme.HabitTrackerAppTheme
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.analytics
-import com.google.firebase.analytics.logEvent
-import com.google.firebase.Firebase
+import android.view.View
+import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.example.habit_tracker_app.R
+import com.example.habit_tracker_app.databinding.ActivityMainBinding
+import com.example.habit_tracker_app.utils.SettingsUtil
 
-class MainActivity : ComponentActivity() {
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            HabitTrackerAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        //Navigation
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        //Set up bottom navigation bar and toolbar with NavController
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.tasksFragment,
+            R.id.habitsFragment,
+            R.id.statisticsFragment)
+        )
+
+        binding.toolbarLayout.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.bottomNavigation.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+
+            when(destination.id) {
+                R.id.habitFormFragment, R.id.settingsFragment, R.id.habitViewFragment, R.id.taskManagementFragment -> {
+                    hideNavigationElements(true)
+                }
+                else -> {
+                    hideNavigationElements(false)
                 }
             }
+
+            hideHabitViewButtons(destination.id != R.id.habitViewFragment)
         }
-        // Obtain the FirebaseAnalytics instance.
-        firebaseAnalytics = Firebase.analytics
+
+        //Toolbar buttons
+        binding.toolbarLayout.settingsButton.setOnClickListener {
+            navController.navigate(R.id.action_to_settingsFragment)
+        }
+        binding.toolbarLayout.addHabitButton.setOnClickListener {
+            navController.navigate(R.id.action_to_habitFormFragment)
+        }
+
+        SettingsUtil.startNotificationServiceIfEnabled(this)
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    private fun hideNavigationElements(hidden : Boolean) {
+        binding.bottomNavigation.visibility = if(hidden) View.GONE else View.VISIBLE
+        binding.toolbarLayout.settingsButton.visibility = if(hidden) View.GONE else View.VISIBLE
+        binding.toolbarLayout.addHabitButton.visibility = if(hidden) View.GONE else View.VISIBLE
+        //toolbarTitle.visibility = if(hidden) View.GONE else View.VISIBLE
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HabitTrackerAppTheme {
-        Greeting("Android")
+    private fun hideHabitViewButtons(hidden : Boolean) {
+        binding.toolbarLayout.editButton.visibility = if(hidden) View.GONE else View.VISIBLE
+        binding.toolbarLayout.deleteButton.visibility = if(hidden) View.GONE else View.VISIBLE
+    }
+
+    fun getEditButton() : ImageButton {
+        return binding.toolbarLayout.editButton
+    }
+
+    fun getDeleteButton() : ImageButton {
+        return binding.toolbarLayout.deleteButton
     }
 }

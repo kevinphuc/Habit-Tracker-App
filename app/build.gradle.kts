@@ -41,6 +41,7 @@ android {
     }
     buildFeatures {
         compose = true
+        dataBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -66,6 +67,11 @@ dependencies {
     // Room Database
     implementation("androidx.room:room-runtime:2.5.0")
     implementation("com.google.firebase:firebase-analytics:22.1.2")
+    implementation("androidx.lifecycle:lifecycle-service:2.8.7")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.5")
+    implementation("androidx.preference:preference-ktx:1.2.1")
     kapt("androidx.room:room-compiler:2.5.0")
 
     // Firebase
@@ -81,6 +87,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    // Joda
+    implementation ("net.danlew:android.joda:2.10.14")
 }
 configurations.all {
     resolutionStrategy.eachDependency {
