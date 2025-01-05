@@ -92,12 +92,12 @@ class NotificationService : LifecycleService() {
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(getText(R.string.app_name))
-            .setSmallIcon(smallIcon)
-            .setContentText(contentText)
-            .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .build()
+                .setContentTitle(getText(R.string.app_name))
+                .setSmallIcon(smallIcon)
+                .setContentText(contentText)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build()
 
         startForeground(ONGOING_NOTIFICATION_ID, notification)
     }
@@ -106,9 +106,9 @@ class NotificationService : LifecycleService() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_LOW
+                    CHANNEL_ID,
+                    CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_LOW
             )
 
             val manager = getSystemService(NotificationManager::class.java)

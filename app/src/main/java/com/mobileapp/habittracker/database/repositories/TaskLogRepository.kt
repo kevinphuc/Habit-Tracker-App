@@ -36,7 +36,7 @@ class TaskLogRepository(private val taskLogDao: TaskLogDao) {
 
         return rows
     }
-
+    
     @WorkerThread
     suspend fun getTaskById(id : Long) : TaskLog? {
         return taskLogDao.getById(id)
