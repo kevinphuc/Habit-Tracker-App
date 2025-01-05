@@ -1,13 +1,10 @@
 # Habit Tracker
 
-An Android application made as a part of my thesis. 
+An Android application
 
 Create habits and track your progress with daily tasks.
 
 Made with Android Studio. The code is based entirely on Kotlin.
-
----
-[Available from Google Play](https://play.google.com/store/apps/details?id=com.santtuhyvarinen.habittracker&hl=en-GB&ah=yrnGuGaLemriJYfEOFkqjDqt1qU)
 
 Use Habit Tracker to track your habits with daily tasks. Easy to use and ad-free.
 
