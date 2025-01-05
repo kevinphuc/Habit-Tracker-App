@@ -10,7 +10,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.mobileapp.habittracker"
+        applicationId kotlin_version
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 2
@@ -58,8 +58,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility kotlin_version
+        targetCompatibility kotlin_version
     }
     kotlinOptions {
         jvmTarget = '1.8'
